@@ -1,0 +1,90 @@
+body {/*we use html selector also then we define height in % i.e 100%*/
+    height: 100vh;/*when we define height in vh then we do not need to define html selector */
+  background-color: #212121;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* overflow: hidden; */
+}
+
+main {
+  width: 100%;
+}
+
+.list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transform-style: preserve-3d; /* Preserve 3D to allow child elements to move in 3D */
+  transform: perspective(1000px); /*Magnitude of the Z-axis will be 1000px
+   Now when item is hovered we change the filter value 👇*/
+}
+.item img {
+  height: 180px;
+  width: auto;
+  padding: 5px;
+  max-width: 100%;/*used for responsiveness*/
+}
+/*start scrolling css*/
+
+.list .item {
+    transition: .5s;
+    filter: brightness(0);   /*For displaying black*/
+
+}
+
+.list .item:hover{
+    filter: brightness(1.5);
+    transform: translateZ(200px);/*transform property to move it along z axis by 200px*/
+}
+
+/** Now this is the difficult part*/
+
+/**.list .item:hover + .item {  I can write it another way too i.e replace with *  */
+.list .item:hover + * { /** Here the item /* is targeting the element to the right of the hovered element */
+      /*principle of * in this case :- the asterisk character is used to recognised element immediately after the hovered item class   */
+    filter:brightness(0.6);
+    transform: translateZ(150px) rotateY(40deg);
+}
+.list .item:hover + * + * { /* The element right to the right of the hovered element */
+    filter: brightness(0.4);
+    transform: translateZ(70px) rotateY(20deg);
+}
+.list .item:hover + * + * + * { 
+    filter: brightness(0.2);
+    transform: translateZ(30px) rotateY(10deg);
+}
+
+/** we can use has() for left hover */
+
+.list .item:has(+ *:hover) {
+    filter: brightness(0.6);
+    transform: translateZ(150px) rotateY(-40deg);
+}
+.list .item:has( + * + *:hover) {
+    filter: brightness(0.4);
+    transform: translateZ(70px) rotateY(-20deg);
+}
+.list .item:has(+ * + * + *:hover) {
+    filter: brightness(0.2);
+    transform: translateZ(30px) rotateY(-10deg);
+}
+
+/**note detailed explaination 👇👇*/
+/*
+1).list .item:hover + *:
+
+    .list .item:hover: Ye part specify karta hai ki jab .item class wala element .list class wale element ke andar hover kiya jata hai (mouse se).
+    + *: Ye selector + (adjacent sibling combinator) ko use karta hai. Iska matlab hai, jo bhi element .item ke immediately baad aata hai, us par styling apply hogi.
+
+2).list .item:has(+ *:hover):
+
+.list .item: Ye selector .item class wale elements ko target karta hai jo .list class wale parent element ke andar hain.
+:has(+ *:hover): Ye pseudo-class :has() ek parent selector hai jo abhi CSS Selectors Level 4 ka part hai aur jo .item element ko select karta hai agar uske immediately baad wala element (sibling) hover state mein hai.  
+    for example:- 
+    <div class="list">
+        <div class="item">Item 1</div>
+        <div class="sibling">Sibling 1</div>
+    </div>  
+Agar .sibling element par hover kiya jaye, to .item element ki styling apply hogi.  */  
