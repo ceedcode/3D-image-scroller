@@ -29,7 +29,7 @@ To run this project locally, follow these steps:
 
 ## 🔗 Live Demo
 
-You can view the live demo of this project at [Your Website Link].
+You can view the live demo of this project at https://ceedcode.github.io/3D-image-scroller/.
 
 ## 📖 Usage
 
